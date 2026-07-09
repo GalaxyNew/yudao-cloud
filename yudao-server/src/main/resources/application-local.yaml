@@ -1,5 +1,6 @@
 server:
   port: 48080
+  # servlet context-path removed: YudaoWebAutoConfiguration handles path prefix
 
 --- #################### 数据库相关配置 ####################
 spring:
@@ -8,7 +9,14 @@ spring:
     exclude:
       - org.springframework.ai.vectorstore.qdrant.autoconfigure.QdrantVectorStoreAutoConfiguration # 禁用 AI 模块的 Qdrant，手动创建
       - org.springframework.ai.vectorstore.milvus.autoconfigure.MilvusVectorStoreAutoConfiguration # 禁用 AI 模块的 Milvus，手动创建
-      - org.dromara.trans.config.TransServiceConfig # TODO 芋艿：easy-trans 兼容 Spring Boot 4 后移除（TransServiceConfig 引用了已移除的 RestTemplateBuilder）
+      - org.dromara.trans.config.TransServiceConfig # TODO 芋艿：easy-trans 兼容 Spring Boot 4 后移除
+      - cn.iocoder.yudao.framework.apilog.config.YudaoApiLogRpcAutoConfiguration
+      - cn.iocoder.yudao.framework.security.config.YudaoSecurityRpcAutoConfiguration
+      - cn.iocoder.yudao.framework.operatelog.config.YudaoOperateLogRpcAutoConfiguration
+      - cn.iocoder.yudao.framework.dict.config.YudaoDictRpcAutoConfiguration
+      - cn.iocoder.yudao.framework.tenant.config.YudaoTenantRpcAutoConfiguration
+      - com.binarywang.spring.starter.wxjava.miniapp.config.WxMaAutoConfiguration
+      - com.binarywang.spring.starter.wxjava.mp.config.WxMpAutoConfiguration
   # 数据源配置项
   datasource:
     druid: # Druid 【监控】相关的全局配置
@@ -47,7 +55,7 @@ spring:
       primary: master
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true # MySQL Connector/J 8.X 连接的示例
+          url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true&useUnicode=true&characterEncoding=UTF-8 # MySQL Connector/J 8.X 连接的示例
           #          url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro?useSSL=true&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true # MySQL Connector/J 5.X 连接的示例
           #          url: jdbc:postgresql://127.0.0.1:5432/ruoyi-vue-pro # PostgreSQL 连接的示例
           #          url: jdbc:postgresql://127.0.0.1:5866/ruoyi-vue-pro # 瀚高 HighGo 连接的示例
@@ -57,7 +65,7 @@ spring:
           #          url: jdbc:kingbase8://127.0.0.1:54321/test  # 人大金仓 KingbaseES 连接的示例
           #          url: jdbc:postgresql://127.0.0.1:5432/postgres # OpenGauss 连接的示例
           username: root
-          password: 123456
+          password: DsGS5pB7lHRO1QzTY7Q
           #          username: sa # SQL Server 连接的示例
           #          password: Yudao@2024 # SQL Server 连接的示例
           #          username: SYSDBA # DM 连接的示例
@@ -65,12 +73,12 @@ spring:
           #          username: root # OpenGauss 连接的示例
           #          password: Yudao@2024 # OpenGauss 连接的示例
           #          username: root # 瀚高 HighGo 连接的示例
-          #          password: 123456 # 瀚高 HighGo 连接的示例
+          #          password: DsGS5pB7lHRO1QzTY7Q # 瀚高 HighGo 连接的示例
         slave: # 模拟从库，可根据自己需要修改
           lazy: true # 开启懒加载，保证启动速度
           url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
           username: root
-          password: 123456
+          password: DsGS5pB7lHRO1QzTY7Q
 #        tdengine: # IoT 数据库（需要 IoT 物联网再开启噢！）
 #          url: jdbc:TAOS-WS://127.0.0.1:6041/ruoyi_vue_pro?enableAutoReconnect=true # 参见：https://t.zsxq.com/qaX9c，开启 TDengine WebSocket 自动重连
 #          driver-class-name: com.taosdata.jdbc.ws.WebSocketDriver
@@ -207,8 +215,19 @@ wx:
 yudao:
   captcha:
     enable: false # 本地环境，暂时关闭图片验证码，方便登录等接口的测试；
+  tenant:
+    ignore-urls:
+      - /admin-api/**
   security:
     mock-enable: true
+    permit-all-urls:
+      - /system/auth/**
+      - /infra/**
+      - /v3/api-docs/**
+      - /swagger-ui/**
+      - /actuator/**
+      - /admin-api/system/auth/**
+      - /admin-api/infra/**
   pay:
     order-notify-url: http://yunai.natapp1.cc/admin-api/pay/notify/order # 支付渠道的【支付】回调地址
     refund-notify-url: http://yunai.natapp1.cc/admin-api/pay/notify/refund # 支付渠道的【退款】回调地址
