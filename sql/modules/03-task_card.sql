@@ -1,0 +1,36 @@
+-- =====================================================
+-- M1.2 yudao-module-task — task_card 任务卡主表 DDL
+-- =====================================================
+CREATE TABLE IF NOT EXISTS `task_card` (
+  `id`              varchar(20)  NOT NULL COMMENT '任务卡 ID（T+YYYYMMDD-NN 格式）',
+  `title`           varchar(200) NOT NULL COMMENT '任务标题',
+  `description`     text                  COMMENT '任务描述（Markdown）',
+  `priority`        varchar(10)           COMMENT '优先级：P0/P1/P2',
+  `level`           varchar(10)           COMMENT '任务层级：L1/L2/L3',
+  `status`          varchar(20)  NOT NULL DEFAULT 'DRAFT' COMMENT '状态：DRAFT/STAFFING/ASSIGNED/IN_PROGRESS/REVIEW/PASSED/REJECTED/BLOCKED/CANCELLED',
+  `tags`            json                  COMMENT '标签（JSON 数组）',
+  `parent_id`       varchar(20)           COMMENT '父任务卡 ID（子卡关联）',
+  `collaborators`   json                  COMMENT '协作者（JSON 数组）',
+  `owner`           varchar(50)           COMMENT '负责人（agent_id）',
+  `model`           varchar(50)           COMMENT '指定模型',
+  `github_issue`    varchar(20)           COMMENT '关联 GitHub Issue 编号',
+  `deadline`        datetime              COMMENT '截止时间',
+  `process_stage`   int                   COMMENT '流程阶段号',
+  `doc_ref`         varchar(500)          COMMENT '关联文档引用',
+  `skill_tags`      varchar(200)          COMMENT '技能标签（逗号分隔）',
+  `difficulty`      varchar(20)           COMMENT '难度：简单/中等/困难',
+  `scope_summary`   varchar(500)          COMMENT '范围摘要',
+  `retries`         int          NOT NULL DEFAULT 0 COMMENT '重试次数',
+  `evidence_level`  varchar(10)           COMMENT '证据级别',
+  `creator`         varchar(50)  NOT NULL DEFAULT '' COMMENT '创建者',
+  `updater`         varchar(50)           COMMENT '更新者',
+  `create_time`     datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time`     datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted`         tinyint(1)   NOT NULL DEFAULT 0 COMMENT '是否删除',
+  `tenant_id`       bigint       NOT NULL DEFAULT 0 COMMENT '租户 ID',
+  PRIMARY KEY (`id`),
+  KEY `idx_parent` (`parent_id`),
+  KEY `idx_owner` (`owner`),
+  KEY `idx_status` (`status`),
+  KEY `idx_deadline` (`deadline`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='任务卡主表';
