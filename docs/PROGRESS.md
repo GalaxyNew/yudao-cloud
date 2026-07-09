@@ -18,3 +18,10 @@
 - API 验证全部通过 ✅
 - DDL 文件已补到 sql/modules/03-*.sql
 - 前端：等 UI 设计稿
+
+## M1.6 Hermes 切轨 当前状态
+- pulse_gate.py v2 已部署: --markdown / --api / --diff 三种模式
+- --diff 验证: markdown=4 / API=4 / common=4 / diff=0 ✅
+- 新旧并跑启动: API 模式可独立产出巡检报告
+- 状态: 新旧并跑第 0 天
+- 等 3 天零 diff 稳定后 markdown 模式降级只读
