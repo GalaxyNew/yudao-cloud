@@ -37,6 +37,20 @@
             <version>${revision}</version>
         </dependency>
 
+        <!-- PM 项目管理模块 -->
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-module-pm-server</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- Agent 管理模块 -->
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-module-agent-server</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <!-- 会员中心。默认注释，保证编译速度 -->
 <!--        <dependency>-->
 <!--            <groupId>cn.iocoder.cloud</groupId>-->
@@ -112,13 +126,6 @@
 <!--            <artifactId>yudao-module-ai-server</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
-
-        <!-- Task 任务卡模块 -->
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-task-server</artifactId>
-            <version>${revision}</version>
-        </dependency>
 
         <!-- IoT 物联网相关模块。默认注释，保证编译速度 -->
 <!--        <dependency>-->
